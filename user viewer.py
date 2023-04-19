@@ -9,3 +9,4 @@ while True:
             f.write(s[:5330] + str(user) + s[5330:])
         path = os.path.join(os.getcwd(), f"{user}.html")
         print(os.system("\"" + path + "\""))
+    os.system("cls")
