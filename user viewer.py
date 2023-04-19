@@ -155,13 +155,19 @@ setInterval(() => httpGetAsync('http://shelter_online.vm-9d28b85f.na4u.ru:5000/a
 </script>
 
 </body></html>"""
-while True:
-    user = int(input("Введите уникальный ID пользователя: "))
-    if not os.path.exists(str(user)):
-        r = requests.get("http://shelter_online.vm-9d28b85f.na4u.ru:5000/api/update/" + str(user))
-        nickname = json.loads(r.text)["hero"]["name"]
-        with open(str(user) + ".html", "w", encoding="utf-8") as f:
-            f.write(s[:ind1] + nickname + s[ind1:ind] + str(user) + s[ind:])
-        path = os.path.join(os.getcwd(), f"{user}.html")
-        print(os.system("\"" + path + "\""))
-    os.system("cls")
+try:
+    while True:
+        user = int(input("Введите уникальный ID пользователя: "))
+        if not os.path.exists(str(user)):
+            r = requests.get("http://shelter_online.vm-9d28b85f.na4u.ru:5000/api/update/" + str(user))
+            nickname = json.loads(r.text)["hero"]["name"]
+            with open(str(user) + ".html", "w", encoding="utf-8") as f:
+                f.write(s[:ind1] + nickname + s[ind1:ind] + str(user) + s[ind:])
+            path = os.path.join(os.getcwd(), f"{user}.html")
+            print(os.system("\"" + path + "\""))
+        os.system("cls")
+except:
+    for file in os.listdir(os.getcwd()):
+        if len(file) >= 6 and file[:-5].isdigit() and file[-5:] == ".html":
+            print(file)
+            os.remove(os.path.join(os.getcwd(), file))
