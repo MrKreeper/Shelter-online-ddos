@@ -1,4 +1,4 @@
-import os, os.path, requests, json
+import os, os.path, requests, json, atexit
 ind = 5318
 ind1 = 573
 s = """<!DOCTYPE html>
@@ -155,6 +155,14 @@ setInterval(() => httpGetAsync('http://shelter_online.vm-9d28b85f.na4u.ru:5000/a
 </script>
 
 </body></html>"""
+
+def delete_all():
+    for file in os.listdir(os.getcwd()):
+        if len(file) >= 6 and file[:-5].isdigit() and file[-5:] == ".html":
+            print(file)
+            os.remove(os.path.join(os.getcwd(), file))
+
+atexit.register(delete_all)
 try:
     while True:
         user = int(input("Введите уникальный ID пользователя: "))
@@ -167,7 +175,5 @@ try:
             print(os.system("\"" + path + "\""))
         os.system("cls")
 except:
-    for file in os.listdir(os.getcwd()):
-        if len(file) >= 6 and file[:-5].isdigit() and file[-5:] == ".html":
-            print(file)
-            os.remove(os.path.join(os.getcwd(), file))
+    delete_all()
+
