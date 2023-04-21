@@ -4,7 +4,7 @@ from lxml import html
 
 if not os.path.exists("users.csv"):
     with open("users.csv", "a", encoding="utf-8") as f:
-        f.write("Никнейм;Почта;Персонаж;Пароль\n")
+        f.write("Nickname;Email;Personage name;Password\n")
 
 def rand_user():
     res = {}
@@ -31,10 +31,11 @@ headers = {
 }
 
 with open("users.csv", "a", encoding="utf-8") as f:
+    session = requests.session()
+    session.headers = headers
     while True:
         user = rand_user()
-        session = requests.session()
-        session.headers = headers
+        start = time.time()
         page = lxml.html.fromstring(session.get('http://shelter_online.vm-9d28b85f.na4u.ru:5000/signup').content)
         form = page.forms[0]
         form.fields["username"] = user["username"]
@@ -42,9 +43,9 @@ with open("users.csv", "a", encoding="utf-8") as f:
         form.fields["personage_name"] = user["personage_name"]
         form.fields['password'] = user["password"]
         form.fields['password2'] = user["password2"]
+        if keyboard.is_pressed("shift"): break
         r = session.post("http://shelter_online.vm-9d28b85f.na4u.ru:5000/signup", data=form.form_values())
-         
         if r:
             f.write(user["username"] + ";" + user["email"] + ";" + user["personage_name"] + ";" + user["password"] + "\n")
-        print(r, user["username"], user["password"])
-
+        print(r, user["username"], user["password"], (time.time() - start) * 1000 // 1, "ms")
+        if keyboard.is_pressed("shift"): break
