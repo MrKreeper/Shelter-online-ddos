@@ -17,7 +17,7 @@ def rand_user():
     res["submit"] = "Submit"
     return res
 
-print("Shelter Online reg master, 1.0")
+print("Shelter Online reg master, 2.0")
 print("Создана в исключительно образовательных целях\n")
 
 alp = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 123456789"
